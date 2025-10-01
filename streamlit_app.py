@@ -32,4 +32,31 @@ st.markdown(
     f"""
     <div style="text-align:center;">
         <div style="width:80px; height:80px; background-color:{'green' if color=='Green' else '#555'}; border-radius:50%; margin:5px auto;"></div>
-        <div
+        <div style="width:80px; height:80px; background-color:{'yellow' if color=='Yellow' else '#555'}; border-radius:50%; margin:5px auto;"></div>
+        <div style="width:80px; height:80px; background-color:{'red' if color=='Red' else '#555'}; border-radius:50%; margin:5px auto;"></div>
+    </div>
+    """,  # 👈 properly closed
+    unsafe_allow_html=True
+)
+
+# Road simulation
+if color == "Green":
+    traffic = "🚗 🏍️ 🚙 🚕 → moving"
+    people = "🚶 🚶‍♀️ (waiting)"
+elif color == "Yellow":
+    traffic = "🚗 🏍️ slowing..."
+    people = "🚶 🚶‍♀️ (waiting)"
+else:  # Red
+    traffic = "🚗 🚙 🚕 🏍️ (stopped)"
+    people = "🚶 🚶‍♀️ 🚶 🚶‍♂️ crossing →"
+
+# Display road and pedestrians
+st.markdown(
+    f"""
+    <div style="text-align:center; font-size:30px; margin-top:20px;">
+        <div><b>Road:</b> {traffic}</div>
+        <div style="margin-top:20px;"><b>Pedestrians:</b> {people}</div>
+    </div>
+    """,  # 👈 also properly closed
+    unsafe_allow_html=True
+)
