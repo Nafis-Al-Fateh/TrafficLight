@@ -1,28 +1,37 @@
 import streamlit as st
+import time
 from itertools import cycle
-from streamlit_autorefresh import st_autorefresh
 
+# Page config
 st.set_page_config(page_title="Traffic Light Simulator", layout="centered")
+
 st.title("🚦 Traffic Light Simulator")
 
+# Define traffic light sequence
 lights = [
-    ("Green", 4),
-    ("Yellow", 2),
-    ("Red", 4)
+    ("Green", 2),
+    ("Yellow", 0.5),
+    ("Red", 2)
 ]
 
-if "lights_cycle" not in st.session_state:
-    st.session_state.lights_cycle = cycle(lights)
-    st.session_state.color, st.session_state.cycles_left = next(st.session_state.lights_cycle)
+colors_cycle = cycle(lights)
 
-# Use st_autorefresh instead of experimental_autorefresh
-count = st_autorefresh(interval=1000, key="traffic_refresh")
+# Placeholder for the traffic light display
+placeholder = st.empty()
 
-if st.session_state.cycles_left > 0:
-    st.session_state.cycles_left -= 1
-else:
-    st.session_state.color, st.session_state.cycles_left = next(st.session_state.lights_cycle)
-
-color = st.session_state.color
-
-# (The rest of your display logic ...)
+while True:
+    color, delay = next(colors_cycle)
+    
+    # Display traffic light
+    placeholder.markdown(
+        f"""
+        <div style="text-align:center;">
+            <div style="width:80px; height:80px; background-color:{'green' if color=='Green' else '#555'}; border-radius:50%; margin:5px auto;"></div>
+            <div style="width:80px; height:80px; background-color:{'yellow' if color=='Yellow' else '#555'}; border-radius:50%; margin:5px auto;"></div>
+            <div style="width:80px; height:80px; background-color:{'red' if color=='Red' else '#555'}; border-radius:50%; margin:5px auto;"></div>
+        </div>
+        """, unsafe_allow_html=True
+    )
+    
+    # Wait for the specified duration
+    time.sleep(delay)
